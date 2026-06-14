@@ -6,7 +6,7 @@ import NewHanchan from "./pages/NewHanchan";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="min-h-screen bg-gray-50 max-w-lg mx-auto">
         <Routes>
           <Route path="/" element={<Home />} />

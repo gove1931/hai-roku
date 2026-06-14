@@ -1,6 +1,6 @@
 import type { SessionWithSummary, SessionDetail, Session, Hanchan } from "./types";
 
-const BASE = "/api";
+const BASE = import.meta.env.BASE_URL + "api";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(BASE + path, {
