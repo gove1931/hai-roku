@@ -6,16 +6,16 @@ import type { Rate } from "../types";
 const RATE_OPTIONS: Rate[] = ["点3", "点5", "点10", "カスタム"];
 const CHIP_PRESETS = [100, 300, 500, 1000];
 
-function nowLocal() {
+function todayLocal() {
   const d = new Date();
   d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-  return d.toISOString().slice(0, 16);
+  return d.toISOString().slice(0, 10);
 }
 
 export default function NewSession() {
   const navigate = useNavigate();
   const [storeName, setStoreName] = useState("");
-  const [playedAt, setPlayedAt] = useState(nowLocal);
+  const [playedAt, setPlayedAt] = useState(todayLocal);
   const [rate, setRate] = useState<Rate>("点3");
   const [chipPreset, setChipPreset] = useState<number | null>(100);
   const [customChip, setCustomChip] = useState("");
@@ -30,7 +30,7 @@ export default function NewSession() {
     try {
       const session = await api.createSession({
         store_name: storeName.trim(),
-        played_at: new Date(playedAt).toISOString(),
+        played_at: new Date(playedAt + "T00:00:00").toISOString(),
         rate,
         chip_price: chipPrice,
       });
@@ -70,10 +70,10 @@ export default function NewSession() {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            日時
+            日付
           </label>
           <input
-            type="datetime-local"
+            type="date"
             value={playedAt}
             onChange={(e) => setPlayedAt(e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-base bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
