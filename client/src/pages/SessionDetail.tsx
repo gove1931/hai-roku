@@ -169,7 +169,8 @@ export default function SessionDetail() {
                 return (
                   <div
                     key={h.id}
-                    className="bg-white rounded-xl border border-gray-100 shadow-sm px-4 py-3"
+                    onClick={() => navigate(`/sessions/${sessionId}/hanchan/${h.id}/edit`)}
+                    className="bg-white rounded-xl border border-gray-100 shadow-sm px-4 py-3 cursor-pointer active:bg-gray-50"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -194,13 +195,7 @@ export default function SessionDetail() {
                           {fmt(income)}
                         </span>
                         <button
-                          onClick={() => navigate(`/sessions/${sessionId}/hanchan/${h.id}/edit`)}
-                          className="text-gray-300 hover:text-blue-400 text-sm leading-none"
-                        >
-                          編集
-                        </button>
-                        <button
-                          onClick={() => deleteHanchan(h)}
+                          onClick={(e) => { e.stopPropagation(); deleteHanchan(h); }}
                           className="text-gray-300 hover:text-red-400 text-lg leading-none"
                         >
                           ×
