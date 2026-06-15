@@ -194,6 +194,12 @@ export default function SessionDetail() {
                           {fmt(income)}
                         </span>
                         <button
+                          onClick={() => navigate(`/sessions/${sessionId}/hanchan/${h.id}/edit`)}
+                          className="text-gray-300 hover:text-blue-400 text-sm leading-none"
+                        >
+                          編集
+                        </button>
+                        <button
                           onClick={() => deleteHanchan(h)}
                           className="text-gray-300 hover:text-red-400 text-lg leading-none"
                         >
