@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import NewSession from "./pages/NewSession";
 import SessionDetail from "./pages/SessionDetail";
 import NewHanchan from "./pages/NewHanchan";
+import EditHanchan from "./pages/EditHanchan";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
           <Route path="/sessions/new" element={<NewSession />} />
           <Route path="/sessions/:id" element={<SessionDetail />} />
           <Route path="/sessions/:id/hanchan/new" element={<NewHanchan />} />
+          <Route path="/sessions/:id/hanchan/:hanchanId/edit" element={<EditHanchan />} />
         </Routes>
       </div>
     </BrowserRouter>
