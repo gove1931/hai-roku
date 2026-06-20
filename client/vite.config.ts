@@ -4,7 +4,6 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
-  base: '/hai-roku/',
   plugins: [
     react(),
     tailwindcss(),
@@ -17,7 +16,7 @@ export default defineConfig({
         theme_color: '#863bff',
         background_color: '#0a0a0f',
         display: 'standalone',
-        start_url: '/hai-roku/',
+        start_url: '/',
         icons: [
           { src: 'pwa-64x64.png', sizes: '64x64', type: 'image/png' },
           { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
@@ -29,7 +28,7 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         runtimeCaching: [
           {
-            urlPattern: /^\/hai-roku\/api\//,
+            urlPattern: /^\/api\//,
             handler: 'NetworkFirst',
             options: {
               cacheName: 'api-cache',
@@ -42,9 +41,8 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      "/hai-roku/api": {
+      "/api": {
         target: "http://localhost:3010",
-        rewrite: (path) => path.replace('/hai-roku', ''),
       },
     },
   },

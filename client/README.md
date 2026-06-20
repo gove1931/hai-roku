@@ -1,73 +1,69 @@
-# React + TypeScript + Vite
+# 牌録（はいろく）
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+麻雀の収支を管理する PWA アプリ。半荘ごとの着順・収支・チップ収支を記録し、セッション別に集計できる。
 
-Currently, two official plugins are available:
+## 機能
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- セッション管理（日時・場所・メンバー）
+- 半荘ごとの着順・収支・チップ収支入力
+- セッション合計・累計収支の表示
+- PWA 対応（ホーム画面に追加可能）
+- オフライン対応（Service Worker）
 
-## React Compiler
+## 本番環境
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **URL**: https://hai-roku.goveapp.com
+- **サーバー**: ConoHa VPS (163.44.125.213)
+- **PM2**: `hai-roku`
 
-## Expanding the ESLint configuration
+## 技術スタック
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| レイヤー | 技術 |
+|----------|------|
+| フロントエンド | React 19 + Vite + Tailwind CSS v4 |
+| バックエンド | Node.js + Express |
+| PWA | vite-plugin-pwa + Workbox |
+| インフラ | ConoHa VPS + Nginx + PM2 + Cloudflare Tunnel |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## ディレクトリ構成
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+hai-roku/
+├── client/       # React + Vite フロントエンド
+│   └── src/
+│       ├── App.tsx
+│       ├── api.ts        # バックエンド API クライアント
+│       └── types.ts
+└── server/       # Express バックエンド（port 3010）
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ローカル開発
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# バックエンド
+cd server
+npm install
+npm run dev   # localhost:3010 で起動
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# フロントエンド（別ターミナル）
+cd client
+npm install
+npm run dev   # localhost:5173 で起動（/api は localhost:3010 にプロキシ）
 ```
+
+## ビルド
+
+```bash
+cd client
+npm run build   # dist/ に出力
+```
+
+## デプロイ（VPS）
+
+```powershell
+git push vps main
+```
+
+push 後、`post-receive` フックがビルド & PM2 再起動を自動実行する。
+
+**git remote**: `ssh://root@163.44.125.213:2222/var/repo/hai-roku.git`
