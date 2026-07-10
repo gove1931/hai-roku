@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
       registerType: 'autoUpdate',
       manifest: {
         name: isStaging ? '[Staging] 牌録' : '牌録',
-        short_name: isStaging ? '[Staging] 牌録' : '牌録',
+        short_name: isStaging ? 'β 牌録' : '牌録',
         description: '麻雀収支管理アプリ',
         theme_color: '#863bff',
         background_color: '#0a0a0f',
